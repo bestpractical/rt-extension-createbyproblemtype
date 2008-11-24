@@ -1,0 +1,11 @@
+RT-Extension-CreateByProblemType version 0.0.1
+
+How to install:
+
+1. perl Makefile.PL
+2. make
+3. make install ( you may need root permission )
+
+You will need to add the following lines to your RT_SiteConfig.pm:
+    Set( @Plugins,qw(RT::Extension::CreateByProblemType) );
+    Set( $CreateByProblemType, 1);
