@@ -9,10 +9,15 @@ $queues->UnLimit;
 while (my $q = $queues->Next) {
     next unless $q->CurrentUserHasRight("CreateTicket");
     my $cf = $q->CustomField("Problem Type");
-    next unless $cf->Id;
-    my $values = $cf->Values;
-    while (my $v = $values->Next) {
-        $m->out('<option value="'. $q->Id."-".$v->Name.'">'.$v->Name.'</option>');
+    if (not $cf->Id or not $cf->Values->Count) {
+        $m->out('<option value="'.$q->Id.'-">'.$q->Name.'</option>');
+    } else {
+        $m->out('<optgroup label="'.$q->Name.'">');
+        my $values = $cf->Values;
+        while (my $v = $values->Next) {
+            $m->out('<option value="'. $q->Id."-".$v->Name.'">'.$v->Name.'</option>');
+        }
+        $m->out('</optgroup>');
     }
 }
 </%perl>

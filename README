@@ -1,5 +1,24 @@
 RT-Extension-CreateByProblemType version 0.0.1
 
+
+This extension modifies the "Create a ticket in..." drop-down on RT's
+main page; instead of presenting a list of queue names, it instead
+presents a list of problem types, and dispatches to the appropriate
+queue.
+
+It does this by inspecting the "Problem Type" custom field on each
+queue, which should be of type "Select one value."  For each queue,
+all possible values for this custom field will be added to the
+drop-down, categorized under the queue name.  If a queue has no
+"Problem Type" custom field, or the custom field has no possible
+values, the queue name will appear instead.
+
+This is a user-configurable option; advanced users may prefer to
+revert to the simple queue name drop-down.  This preference appears
+under the "General" header in user preferences, as "Create tickets by
+selecting a problem type, not a queue."
+
+
 How to install:
 
 1. perl Makefile.PL

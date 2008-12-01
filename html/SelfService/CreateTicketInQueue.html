@@ -2,15 +2,17 @@
 
 <h1><&|/l&>Select a queue for your new ticket</&></h1>
 
-<ul>
-% while (my $q = $queues->Next) {    
+% while (my $q = $queues->Next) {
 %     next unless $q->CurrentUserHasRight('CreateTicket');
+<h2><a href="<%RT->Config->Get('WebPath')%>/SelfService/Create.html?Queue=<%$q->id%>"><% $q->Name %></a></h2>
 %     my $cf = $q->CustomField("Problem Type");
 %     next unless $cf->Id;
 %     my $values = $cf->Values;
+<ul>
 %     while (my $v = $values->Next) {
-<ul><a href="<%RT->Config->Get('WebPath')%>/SelfService/Create.html?Queue=<%$q->id%>&CustomField-<%$cf->id%>=<%$v->Name%>"><%$v->Name%></a></ul>
+<li><a href="<%RT->Config->Get('WebPath')%>/SelfService/Create.html?Queue=<%$q->id%>&CustomField-<%$cf->id%>=<%$v->Name%>"><%$v->Name%></a></li>
 %     }
+</ul>
 % }
 </ul>
 <%init>
