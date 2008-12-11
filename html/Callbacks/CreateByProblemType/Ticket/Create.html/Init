@@ -15,4 +15,6 @@ my $cf = $QueueObj->CustomField("Problem Type");
 return unless $cf->Id;
 
 $ARGSRef->{"CustomField-".$cf->Id} = $ProblemValue;
+$ARGSRef->{"Requestors"} = ' ';
+$ARGSRef->{"Subject"} = $ProblemValue;
 </%init>
