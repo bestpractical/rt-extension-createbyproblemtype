@@ -4,15 +4,15 @@
 
 % while (my $q = $queues->Next) {
 %     next unless $q->CurrentUserHasRight('CreateTicket');
-<h2><a href="<%RT->Config->Get('WebPath')%>/SelfService/Create.html?Queue=<%$q->id%>">
+<h3><a href="<%RT->Config->Get('WebPath')%>/SelfService/Create.html?Queue=<%$q->id%>">
     <% $q->Name %>
-    <% $q->Description ? " - ".$q->Description : "" %></a></h2>
+    <% $q->Description ? " - ".$q->Description : "" %></a></h3>
 %     my $cf = $q->CustomField("Problem Type");
 %     next unless $cf->Id;
 %     my $values = $cf->Values;
 <ul>
 %     while (my $v = $values->Next) {
-<li><a href="<%RT->Config->Get('WebPath')%>/SelfService/Create.html?Queue=<%$q->id%>&CustomField-<%$cf->id%>=<%$v->Name%>"><%$v->Name%></a></li>
+<li><a href="<%RT->Config->Get('WebPath')%>/SelfService/Create.html?Queue=<%$q->id%>&CustomField-<%$cf->id%>=<%$v->Name%>&Subject=<%$v->Name%>"><%$v->Name%></a></li>
 %     }
 </ul>
 % }
