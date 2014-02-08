@@ -1,30 +1,69 @@
-RT-Extension-CreateByProblemType version 0.0.1
+NAME
+    RT-Extension-CreateByProblemType - Choose from Problem Types rather than
+    Queues for new tickets
 
+SYNOPSIS
+    This extension modifies the "Create a ticket in..." drop-down on RT's
+    main page; instead of presenting a list of queue names, it instead
+    presents a list of problem types, and dispatches to the appropriate
+    queue.
 
-This extension modifies the "Create a ticket in..." drop-down on RT's
-main page; instead of presenting a list of queue names, it instead
-presents a list of problem types, and dispatches to the appropriate
-queue.
+    It does this by inspecting the "Problem Type" custom field on each
+    queue, which should be of type "Select one value." For each queue, all
+    possible values for this custom field will be added to the drop-down,
+    categorized under the queue name. If a queue has no "Problem Type"
+    custom field, or the custom field has no possible values, the queue name
+    will appear instead.
 
-It does this by inspecting the "Problem Type" custom field on each
-queue, which should be of type "Select one value."  For each queue,
-all possible values for this custom field will be added to the
-drop-down, categorized under the queue name.  If a queue has no
-"Problem Type" custom field, or the custom field has no possible
-values, the queue name will appear instead.
+    This is a user-configurable option; advanced users may prefer to revert
+    to the simple queue name drop-down. This preference appears under the
+    "General" header in user preferences, as "Create tickets by selecting a
+    problem type, not a queue."
 
-This is a user-configurable option; advanced users may prefer to
-revert to the simple queue name drop-down.  This preference appears
-under the "General" header in user preferences, as "Create tickets by
-selecting a problem type, not a queue."
+INSTALLATION
+    "perl Makefile.PL"
+    "make"
+    "make install"
+        May need root permissions
 
+    Edit your /opt/rt4/etc/RT_SiteConfig.pm
+        If you are using RT 4.2 or greater, add this line:
 
-How to install:
+            Plugin('RT::Extension::CreateByProblemType');
 
-1. perl Makefile.PL
-2. make
-3. make install ( you may need root permission )
+        For earlier releases of RT 4, add this line:
 
-You will need to add the following lines to your RT_SiteConfig.pm:
-    Set( @Plugins,qw(RT::Extension::CreateByProblemType) );
-    Set( $CreateByProblemType, 1);
+            Set(@Plugins, qw(RT::Extension::CreateByProblemType));
+
+        or add "RT::Extension::CreateByProblemType" to your existing
+        @Plugins line.
+
+    Clear your mason cache
+            rm -rf /opt/rt4/var/mason_data/obj
+
+    Restart your webserver
+
+CONFIGURATION
+    To default this extension on
+
+        Set( $CreateByProblemType, 1);
+
+AUTHOR
+    Alex Vandiver <alexmv@bestpractical.com> Kevin Falcone
+    <falcone@bestpractical.com>
+
+BUGS
+    All bugs should be reported via email to
+    bug-RT-Extension-CreateByProblemType@rt.cpan.org
+    <mailto:bug-RT-Extension-CreateByProblemType@rt.cpan.org> or via the web
+    at rt.cpan.org
+    <http://rt.cpan.org/Public/Dist/Display.html?Name=RT-Extension-CreateByP
+    roblemType>.
+
+LICENSE AND COPYRIGHT
+    This software is Copyright (c) 2008-2014 by Best Practical Solutions
+
+    This is free software, licensed under:
+
+      The GNU General Public License, Version 2, June 1991
+

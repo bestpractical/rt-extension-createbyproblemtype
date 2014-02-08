@@ -1,7 +1,6 @@
 ---
-abstract: ~
+abstract: 'RT Extension-CreateByProblemType Extension'
 author:
-  - 'Kevin Falcone <falcone@bestpractical.com>'
   - 'Alex Vandiver <alexmv@bestpractical.com>'
 build_requires:
   ExtUtils::MakeMaker: 6.36
