@@ -1,5 +1,4 @@
 <form action="<% RT->Config->Get('WebPath') %>/Ticket/Create.html" name="CreateTicketInQueue" id="CreateTicketInQueue">
-% if (RT::Config->Get('CreateByProblemType', $session{'CurrentUser'})) {
 <input type="submit" class="button" value="New problem" />&nbsp;
 <select name="Problem" onchange="document.CreateTicketInQueue.submit()">
 <%perl>
@@ -22,7 +21,4 @@ while (my $q = $queues->Next) {
 }
 </%perl>
 </select>
-% } else {
-<&|/l, $m->scomp('/Elements/SelectNewTicketQueue', OnChange => 'document.CreateTicketInQueue.submit()')&><input type="submit" class="button" value="New ticket in" />&nbsp;[_1]</&>
-% }
 </form>
