@@ -46,7 +46,7 @@ If you are using RT 4.2 or greater, add this line:
 
     Plugin('RT::Extension::CreateByProblemType');
 
-For earlier releases of RT 4, add this line:
+For 4.0, add this line:
 
     Set(@Plugins, qw(RT::Extension::CreateByProblemType));
 
@@ -62,27 +62,28 @@ or add C<RT::Extension::CreateByProblemType> to your existing C<@Plugins> line.
 
 =head1 CONFIGURATION
 
-To default this extension on
+To default this extension on, add the following to your
+F<etc/RT_SiteConfig.pm>:
 
     Set( $CreateByProblemType, 1);
 
-
 =head1 AUTHOR
 
-Alex Vandiver <alexmv@bestpractical.com>
-Kevin Falcone <falcone@bestpractical.com>
+Best Practical Solutions, LLC E<lt>modules@bestpractical.comE<gt>
 
 =head1 BUGS
 
 All bugs should be reported via email to
-L<bug-RT-Extension-CreateByProblemType@rt.cpan.org|mailto:bug-RT-Extension-CreateByProblemType@rt.cpan.org>
+
+    L<bug-RT-Extension-CreateByProblemType@rt.cpan.org|mailto:bug-RT-Extension-CreateByProblemType@rt.cpan.org>
+
 or via the web at
-L<rt.cpan.org|http://rt.cpan.org/Public/Dist/Display.html?Name=RT-Extension-CreateByProblemType>.
 
+    L<rt.cpan.org|http://rt.cpan.org/Public/Dist/Display.html?Name=RT-Extension-CreateByProblemType>.
 
-=head1 LICENSE AND COPYRIGHT
+=head1 COPYRIGHT
 
-This software is Copyright (c) 2008-2014 by Best Practical Solutions
+This extension is Copyright (C) 2008-2014 Best Practical Solutions, LLC.
 
 This is free software, licensed under:
 
