@@ -1,6 +1,6 @@
 package RT::Extension::CreateByProblemType;
 
-our $VERSION = '0.03';
+our $VERSION = '1.00';
 
 use warnings;
 use strict;
