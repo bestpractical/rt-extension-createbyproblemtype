@@ -1,4 +1,6 @@
-<form action="<% RT->Config->Get('WebPath') %>/Ticket/Create.html" name="CreateTicketInQueue" id="CreateTicketInQueue">
+<form action="<% RT->Config->Get('WebPath') %>/Ticket/Create.html" name="CreateTicketInQueue" id="CreateTicketInQueue"
+% $m->callback(CallbackName => 'InFormElement');
+>
 <input type="submit" class="button" value="New problem" />&nbsp;
 <select name="Problem" onchange="document.CreateTicketInQueue.submit()">
 <%perl>
