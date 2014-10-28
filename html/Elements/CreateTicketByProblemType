@@ -2,7 +2,7 @@
 % $m->callback(CallbackName => 'InFormElement');
 >
 <input type="submit" class="button" value="New problem" />&nbsp;
-<select name="Problem" onchange="document.CreateTicketInQueue.submit()">
+<select name="Problem" onchange="document.CreateTicketInQueue.submit()" class="select-problem">
 <%perl>
 my @problemtypes;
 my $queues = RT::Queues->new($session{'CurrentUser'});
