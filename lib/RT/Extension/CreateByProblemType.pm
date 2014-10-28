@@ -91,6 +91,8 @@ This is free software, licensed under:
 
 =cut
 
+RT->AddStyleSheets('createbyproblemtype.css');
+
 $RT::Config::META{CreateByProblemType} = 
     {
         Section         => 'General',
