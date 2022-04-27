@@ -1,3 +1,9 @@
+1.02 2022-04-27
+ - Support select problem on ticket create page for RT 5
+ - Refactor to render options in normal mason instead of calling $m->out
+ - Abstract SelectProblem to reuse it later for RT 5 create page
+ - Load queue custom field directly from RT::CustomField
+
 1.01 2014-07-14
  - Updated changelog
  - cpansign
