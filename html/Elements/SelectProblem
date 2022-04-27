@@ -1,30 +1,42 @@
 <select name="<% $Name %>" <% $OnChange ? qq{onchange="$OnChange"} : '' |n %> class="select-problem">
-<%perl>
-my @problemtypes;
-my $queues = RT::Queues->new($session{'CurrentUser'});
+% for my $option ( @options ) {
+% if ( ref $option eq 'HASH' ) {
+    <option value="<% $option->{value} %>"><% $option->{label} %></option>
+% } elsif ( $option ) {
+    <optgroup label="<% $option %>">
+% } else {
+    </optgroup>
+% }
+% }
+</select>
+
+<%INIT>
+my @options;
+my $queues = RT::Queues->new( $session{'CurrentUser'} );
 $queues->UnLimit;
-while (my $q = $queues->Next) {
+while ( my $q = $queues->Next ) {
     next unless $q->CurrentUserHasRight("CreateTicket");
-    my $cf = RT::CustomField->new($session{'CurrentUser'});
+    my $cf = RT::CustomField->new( $session{'CurrentUser'} );
     $cf->LoadByName(
         Name          => 'Problem Type',
         LookupType    => RT::Queue->CustomFieldLookupType,
         ObjectId      => $q->id,
         IncludeGlobal => 1,
     );
-    if (not $cf->Id or not $cf->Values->Count) {
-        $m->out('<option value="'.$q->Id.'-">'.$q->Name.'</option>');
-    } else {
-        $m->out('<optgroup label="'.$q->Name.'">');
+    if ( not $cf->Id or not $cf->Values->Count ) {
+        push @options, { value => $q->Id . '-', label => $q->Name };
+    }
+    else {
+        push @options, $q->Name;
         my $values = $cf->Values;
-        while (my $v = $values->Next) {
-            $m->out('<option value="'. $q->Id."-".$v->Name.'">'.$v->Name.'</option>');
+        while ( my $v = $values->Next ) {
+            push @options, { value => $q->Id . "-" . $v->Name, label => $v->Name };
         }
-        $m->out('</optgroup>');
+        push @options, ''; # close optgroup
     }
 }
-</%perl>
-</select>
+
+</%INIT>
 
 <%ARGS>
 $Name => 'Problem'
