@@ -1,7 +1,7 @@
-<select name="<% $Name %>" <% $OnChange ? qq{onchange="$OnChange"} : '' |n %> class="select-problem">
+<select name="<% $Name %>" <% $OnChange ? qq{onchange="$OnChange"} : '' |n %> class="select-problem form-control selectpicker">
 % for my $option ( @options ) {
 % if ( ref $option eq 'HASH' ) {
-    <option value="<% $option->{value} %>"><% $option->{label} %></option>
+    <option <% $Default eq $option->{value} ? 'selected="selected"' : '' |n %> value="<% $option->{value} %>"><% $option->{label} %></option>
 % } elsif ( $option ) {
     <optgroup label="<% $option %>">
 % } else {
@@ -41,4 +41,5 @@ while ( my $q = $queues->Next ) {
 <%ARGS>
 $Name => 'Problem'
 $OnChange => ''
+$Default => ''
 </%ARGS>
