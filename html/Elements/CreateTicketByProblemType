@@ -9,7 +9,13 @@ my $queues = RT::Queues->new($session{'CurrentUser'});
 $queues->UnLimit;
 while (my $q = $queues->Next) {
     next unless $q->CurrentUserHasRight("CreateTicket");
-    my $cf = $q->CustomField("Problem Type");
+    my $cf = RT::CustomField->new($session{'CurrentUser'});
+    $cf->LoadByName(
+        Name          => 'Problem Type',
+        LookupType    => RT::Queue->CustomFieldLookupType,
+        ObjectId      => $q->id,
+        IncludeGlobal => 1,
+    );
     if (not $cf->Id or not $cf->Values->Count) {
         $m->out('<option value="'.$q->Id.'-">'.$q->Name.'</option>');
     } else {

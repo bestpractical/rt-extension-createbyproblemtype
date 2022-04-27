@@ -11,7 +11,13 @@ $ARGSRef->{Queue} = $Queue;
 my $QueueObj = RT::Queue->new($session{'CurrentUser'});
 $QueueObj->Load($Queue) or return;
 
-my $cf = $QueueObj->CustomField("Problem Type");
+my $cf = RT::CustomField->new($session{'CurrentUser'});
+$cf->LoadByName(
+    Name          => 'Problem Type',
+    LookupType    => RT::Queue->CustomFieldLookupType,
+    ObjectId      => $QueueObj->id,
+    IncludeGlobal => 1,
+);
 return unless $cf->Id;
 
 $ARGSRef->{"CustomField-".$cf->Id} = $ProblemValue;
