@@ -13,7 +13,7 @@ if ( RT::Handle::cmp_version( $RT::VERSION, '5.0.0' ) >= 0 && !$ARGSRef->{Proble
         my $cf = RT::CustomField->new( $session{'CurrentUser'} );
         $cf->LoadByName(
             Name          => 'Problem Type',
-            LookupType    => RT::Queue->CustomFieldLookupType,
+            LookupType    => RT::Ticket->CustomFieldLookupType,
             ObjectId      => $q->id,
             IncludeGlobal => 1,
         );
@@ -43,7 +43,7 @@ $QueueObj->Load($Queue) or return;
 my $cf = RT::CustomField->new($session{'CurrentUser'});
 $cf->LoadByName(
     Name          => 'Problem Type',
-    LookupType    => RT::Queue->CustomFieldLookupType,
+    LookupType    => RT::Ticket->CustomFieldLookupType,
     ObjectId      => $QueueObj->id,
     IncludeGlobal => 1,
 );
