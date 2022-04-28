@@ -1,3 +1,7 @@
+1.03 2022-04-28
+ - Ignore submitted "Problem Type" value on problem change
+ - Fix "Problem Type" lookup type: it's a ticket custom field
+
 1.02 2022-04-27
  - Support select problem on ticket create page for RT 5
  - Refactor to render options in normal mason instead of calling $m->out
