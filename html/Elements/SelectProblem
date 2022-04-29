@@ -2,11 +2,14 @@
 % my $in_group;
 % for my $option ( @options ) {
 % if ( ref $option eq 'HASH' ) {
-%   if ( !$in_group ) {
+%   if ( $in_group ) {
+%   # the bold style on optgroup applies to its children, so we need to set back to normal here.
+    <option style="font-weight: normal !important;"
+%   } else {
     <option class="font-weight-bold" data-divider="true"></option>
-%   }
-% # the bold style on optgroup applies to its children, so we need to set back to normal here.
-    <option <% $in_group ? 'style="font-weight: normal !important;"' : 'class="font-weight-bold"' |n %> <% $Default eq $option->{value} ? 'selected="selected"' : '' |n %> value="<% $option->{value} %>"><% $option->{label} %></option>
+    <option class="font-weight-bold"
+% }
+    <% $Default eq $option->{value} ? 'selected="selected"' : '' |n %> value="<% $option->{value} %>"><% $option->{label} %></option>
 }
 % } elsif ( $option ) {
     <optgroup class="font-weight-bold" label="<% $option %>">
