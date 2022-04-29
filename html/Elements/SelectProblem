@@ -1,10 +1,17 @@
 <select name="<% $Name %>" <% $OnChange ? qq{onchange="$OnChange"} : '' |n %> class="select-problem form-control selectpicker">
+% my $in_group;
 % for my $option ( @options ) {
 % if ( ref $option eq 'HASH' ) {
+%   if ( !$in_group ) {
+    <option data-divider="true"></option>
+%   }
     <option <% $Default eq $option->{value} ? 'selected="selected"' : '' |n %> value="<% $option->{value} %>"><% $option->{label} %></option>
+}
 % } elsif ( $option ) {
     <optgroup label="<% $option %>">
+%   $in_group = 1;
 % } else {
+%   $in_group = 0;
     </optgroup>
 % }
 % }
