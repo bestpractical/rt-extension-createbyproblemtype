@@ -3,12 +3,13 @@
 % for my $option ( @options ) {
 % if ( ref $option eq 'HASH' ) {
 %   if ( !$in_group ) {
-    <option data-divider="true"></option>
+    <option class="font-weight-bold" data-divider="true"></option>
 %   }
-    <option <% $Default eq $option->{value} ? 'selected="selected"' : '' |n %> value="<% $option->{value} %>"><% $option->{label} %></option>
+% # the bold style on optgroup applies to its children, so we need to set back to normal here.
+    <option <% $in_group ? 'style="font-weight: normal !important;"' : 'class="font-weight-bold"' |n %> <% $Default eq $option->{value} ? 'selected="selected"' : '' |n %> value="<% $option->{value} %>"><% $option->{label} %></option>
 }
 % } elsif ( $option ) {
-    <optgroup label="<% $option %>">
+    <optgroup class="font-weight-bold" label="<% $option %>">
 %   $in_group = 1;
 % } else {
 %   $in_group = 0;
