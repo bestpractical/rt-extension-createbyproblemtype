@@ -1,10 +1,11 @@
 <select name="<% $Name %>" <% $OnChange ? qq{onchange="$OnChange"} : '' |n %> class="select-problem form-control selectpicker">
 % my $in_group;
+% my $i = 0;
 % for my $option ( @options ) {
 % if ( ref $option eq 'HASH' ) {
 %   if ( $in_group ) {
 %   # the bold style on optgroup applies to its children, so we need to set back to normal here.
-    <option style="font-weight: normal !important;"
+    <option style="font-weight: normal !important;" class="<% ++$i % 2 ? 'odd' : 'even' %>"
 %   } else {
     <option class="font-weight-bold" data-divider="true"></option>
     <option class="font-weight-bold"
@@ -14,6 +15,7 @@
 % } elsif ( $option ) {
     <optgroup class="font-weight-bold" label="<% $option %>">
 %   $in_group = 1;
+%   $i = 0;
 % } else {
 %   $in_group = 0;
     </optgroup>
