@@ -7,7 +7,7 @@ return
 
 for my $field (@$Fields) {
     if ( $field->{name} eq 'Queue' ) {
-        $field->{name} = 'Problem';
+        $field->{name} = 'Problem Type';
         $field->{comp} = '/Elements/SelectProblem';
         $field->{args} = {
             Name => 'Problem',
