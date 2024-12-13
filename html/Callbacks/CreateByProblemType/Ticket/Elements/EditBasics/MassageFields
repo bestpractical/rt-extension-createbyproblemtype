@@ -18,6 +18,13 @@ for my $field (@$Fields) {
         last;
     }
 }
+
+if ( $ARGS{QueueObj} ) {
+    my $queue_name = $ARGS{QueueObj}->Name;
+    RT::Interface::Web::EscapeHTML( \$queue_name );
+    unshift @$Fields, { name => 'Queue', html => qq{<span class="current-value">$queue_name</span>}, };
+}
+
 </%INIT>
 
 <%ARGS>
