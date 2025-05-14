@@ -1,4 +1,4 @@
-<select name="<% $Name %>" <% $OnChange ? qq{onchange="$OnChange"} : '' |n %> class="select-problem form-control selectpicker">
+<select name="<% $Name %>" <% $OnChange ? qq{onchange="$OnChange"} : '' |n %> class="select-problem selectpicker form-select">
 % my $in_group;
 % my $i = 0;
 % for my $option ( @options ) {
