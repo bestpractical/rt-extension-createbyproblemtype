@@ -1,20 +1,11 @@
 <select name="<% $Name %>" <% $OnChange ? qq{onchange="$OnChange"} : '' |n %> class="select-problem selectpicker form-select">
 % my $in_group;
-% my $i = 0;
 % for my $option ( @options ) {
 % if ( ref $option eq 'HASH' ) {
-%   if ( $in_group ) {
-%   # the bold style on optgroup applies to its children, so we need to set back to normal here.
-    <option style="font-weight: normal !important;" class="<% ++$i % 2 ? 'odd' : 'even' %>"
-%   } else {
-    <option class="font-weight-bold" data-divider="true"></option>
-    <option class="font-weight-bold"
-% }
-    <% $Default eq $option->{value} ? 'selected="selected"' : '' |n %> value="<% $option->{value} %>"><% $option->{label} %></option>
-% } elsif ( $option ) {
-    <optgroup class="font-weight-bold" label="<% $option %>">
+    <option <% $Default eq $option->{value} ? 'selected="selected"' : '' |n %> value="<% $option->{value} %>"><% $option->{label} %></option>
+% } elsif ( defined $option ) {
+    <optgroup style="backgound:white;" label="<% $option %>">
 %   $in_group = 1;
-%   $i = 0;
 % } else {
 %   $in_group = 0;
     </optgroup>
@@ -36,7 +27,7 @@ while ( my $q = $queues->Next ) {
         IncludeGlobal => 1,
     );
     if ( not $cf->Id or not $cf->Values->Count ) {
-        push @options, { value => $q->Id . '-', label => $q->Name };
+        push @options, '', { value => $q->Id . '-', label => $q->Name }, undef;
     }
     else {
         push @options, $q->Name;
@@ -44,7 +35,7 @@ while ( my $q = $queues->Next ) {
         while ( my $v = $values->Next ) {
             push @options, { value => $q->Id . "-" . $v->Name, label => $v->Name };
         }
-        push @options, ''; # close optgroup
+        push @options, undef; # close optgroup
     }
 }
 

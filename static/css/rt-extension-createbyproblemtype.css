@@ -1,0 +1,3 @@
+.ts-dropdown .optgroup-header:empty {
+    margin-top: -0.4375rem;
+}
