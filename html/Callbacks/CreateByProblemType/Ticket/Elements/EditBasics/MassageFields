@@ -11,7 +11,7 @@ for my $field (@$Fields) {
         $field->{comp} = '/Elements/SelectProblem';
         $field->{args} = {
             Name => 'Problem',
-            OnChange => q{jQuery(this).closest('form').find('input[name=QueueChanged]').val(1); jQuery(this).closest('form').submit();},
+            OnChange => q{jQuery(this).closest('form').find('input[name=QueueChanged]').val(1); htmx.trigger(this.form, 'submit');},
             Default  => $ARGS{defaults}{Problem} || '',
         };
 
