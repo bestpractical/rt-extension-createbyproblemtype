@@ -102,4 +102,5 @@ $RT::Config::META{CreateByProblemType} =
         },
     };
 
+RT->AddStyleSheets('rt-extension-createbyproblemtype.css');
 1;
