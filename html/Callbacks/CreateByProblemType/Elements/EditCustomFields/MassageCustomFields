@@ -1,7 +1,6 @@
 <%INIT>
 return
-       if RT::Handle::cmp_version( $RT::VERSION, '5.0.0' ) < 0
-    || !RT->Config->Get( 'CreateByProblemType', $session{'CurrentUser'} )
+    if !RT->Config->Get( 'CreateByProblemType', $session{'CurrentUser'} )
     || ( $Object && ( !$Object->isa('RT::Ticket') || $Object->Id ) );
 
 $CustomFields->Limit(

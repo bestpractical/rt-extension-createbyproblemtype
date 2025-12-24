@@ -9,6 +9,12 @@ use strict;
 
 RT-Extension-CreateByProblemType - Choose from Problem Types rather than Queues for new tickets
 
+=head1 RT VERSION
+
+Works with RT 6.
+
+For RT 5, use the latest 1.X version.
+
 =head1 SYNOPSIS
 
 This extension modifies the "Create a ticket in..." drop-down on RT's
@@ -40,21 +46,15 @@ selecting a problem type, not a queue."
 
 May need root permissions
 
-=item Edit your F</opt/rt5/etc/RT_SiteConfig.pm>
+=item Edit your F</opt/rt6/etc/RT_SiteConfig.pm>
 
-If you are using RT 4.2 or greater, add this line:
+Add this line:
 
     Plugin('RT::Extension::CreateByProblemType');
 
-For 4.0, add this line:
-
-    Set(@Plugins, qw(RT::Extension::CreateByProblemType));
-
-or add C<RT::Extension::CreateByProblemType> to your existing C<@Plugins> line.
-
 =item Clear your mason cache
 
-    rm -rf /opt/rt5/var/mason_data/obj
+    rm -rf /opt/rt6/var/mason_data/obj
 
 =item Restart your webserver
 

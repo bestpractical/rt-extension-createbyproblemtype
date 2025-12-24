@@ -1,6 +1,0 @@
-<form action="<% RT->Config->Get('WebPath') %>/Ticket/Create.html" name="CreateTicketInQueue" id="CreateTicketInQueue"
-% $m->callback(CallbackName => 'InFormElement');
->
-<input type="submit" class="button" value="New problem" />&nbsp;
-<& SelectProblem, Name => 'Problem', OnChange => "document.CreateTicketInQueue.submit()" &>
-</form>

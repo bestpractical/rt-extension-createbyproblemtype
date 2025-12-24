@@ -1,5 +1,0 @@
-<%INIT>
-if (RT::Handle::cmp_version($RT::VERSION, '5.0.0') < 0 && RT->Config->Get('CreateByProblemType', $session{'CurrentUser'})) {
-    PageWidgets()->child( create_ticket => raw_html => $m->scomp('/Elements/CreateTicketByProblemType') );
-}
-</%INIT>

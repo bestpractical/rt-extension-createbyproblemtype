@@ -5,7 +5,7 @@ $ARGSRef
 return if $ARGSRef->{Queue} || !RT->Config->Get( 'CreateByProblemType', $session{'CurrentUser'} );
 
 # We need to load default problem for RT 5 create page
-if ( RT::Handle::cmp_version( $RT::VERSION, '5.0.0' ) >= 0 && !$ARGSRef->{Problem} ) {
+if ( !$ARGSRef->{Problem} ) {
     my $queues = RT::Queues->new( $session{'CurrentUser'} );
     $queues->UnLimit;
     while ( my $q = $queues->Next ) {
@@ -52,13 +52,13 @@ if ( $cf->Id ) {
     $ARGSRef->{"CustomField-".$cf->Id} = $ProblemValue;
 
     my $id = $cf->Id;
-    if ( $ARGSRef->{SubmitTicket} && RT::Handle::cmp_version($RT::VERSION, '5.0.0') >= 0 ) {
+    if ($ARGSRef->{SubmitTicket}) {
         $ARGSRef->{"Object-RT::Ticket--CustomField-$id->Id-Values-Magic"} = 1;
         $ARGSRef->{"Object-RT::Ticket--CustomField-$id->Id-Values"} = $ProblemValue;
     }
 
-    # For RT 5, update Subject only on problem change, to avoid overriding user input value on "Create"
-    $ARGSRef->{Subject} = $ProblemValue if $ARGSRef->{QueueChanged} || RT::Handle::cmp_version($RT::VERSION, '5.0.0') < 0;
+    # Update Subject only on problem change, to avoid overriding user input value on "Create"
+    $ARGSRef->{Subject} = $ProblemValue if $ARGSRef->{QueueChanged};
 }
 else {
     # Reset Subject if current queue doesn't support Problem Type on problem change
