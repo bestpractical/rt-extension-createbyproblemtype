@@ -4,31 +4,37 @@ $ARGSRef
 <%init>
 return if $ARGSRef->{Queue} || !RT->Config->Get( 'CreateByProblemType', $session{'CurrentUser'} );
 
-# We need to load default problem for RT 5 create page
+# Load default problem
 if ( !$ARGSRef->{Problem} ) {
-    my $queues = RT::Queues->new( $session{'CurrentUser'} );
-    $queues->UnLimit;
-    while ( my $q = $queues->Next ) {
-        next unless $q->CurrentUserHasRight("CreateTicket");
-        my $cf = RT::CustomField->new( $session{'CurrentUser'} );
-        $cf->LoadByName(
-            Name          => 'Problem Type',
-            LookupType    => RT::Ticket->CustomFieldLookupType,
-            ObjectId      => $q->id,
-            IncludeGlobal => 1,
-        );
-        if ( not $cf->Id or not $cf->Values->Count ) {
-            $ARGSRef->{Problem} = $q->Id . '-';
-        }
-        else {
-            my $values = $cf->Values;
-            while ( my $v = $values->Next ) {
-                $ARGSRef->{Problem} = $q->Id . "-" . $v->Name;
-                $ARGSRef->{Subject} = $v->Name;
-                last;
+    if ( my $default = RT->Config->Get( 'DefaultProblem', $session{'CurrentUser'} ) ) {
+        $ARGSRef->{Problem} = $default;
+        $ARGSRef->{Subject} = $1 if $default =~ /^\d+-(.+)/;
+    }
+    else {
+        my $queues = RT::Queues->new( $session{'CurrentUser'} );
+        $queues->UnLimit;
+        while ( my $q = $queues->Next ) {
+            next unless $q->CurrentUserHasRight("CreateTicket");
+            my $cf = RT::CustomField->new( $session{'CurrentUser'} );
+            $cf->LoadByName(
+                Name          => 'Problem Type',
+                LookupType    => RT::Ticket->CustomFieldLookupType,
+                ObjectId      => $q->id,
+                IncludeGlobal => 1,
+            );
+            if ( not $cf->Id or not $cf->Values->Count ) {
+                $ARGSRef->{Problem} = $q->Id . '-';
             }
+            else {
+                my $values = $cf->Values;
+                while ( my $v = $values->Next ) {
+                    $ARGSRef->{Problem} = $q->Id . "-" . $v->Name;
+                    $ARGSRef->{Subject} = $v->Name;
+                    last;
+                }
+            }
+            last;
         }
-        last;
     }
 }
 

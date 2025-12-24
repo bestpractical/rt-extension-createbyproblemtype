@@ -45,7 +45,11 @@ CONFIGURATION
     To default this extension on, add the following to your
     etc/RT_SiteConfig.pm:
 
-        Set( $CreateByProblemType, 1);
+        Set($CreateByProblemType, 1);
+
+    To set the default problem, like "Tech" in queue #1:
+
+        Set($DefaultProblem, '1-Tech' );
 
 AUTHOR
     Best Practical Solutions, LLC <modules@bestpractical.com>

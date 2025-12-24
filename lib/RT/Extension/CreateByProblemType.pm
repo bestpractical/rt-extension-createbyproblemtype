@@ -65,7 +65,11 @@ Add this line:
 To default this extension on, add the following to your
 F<etc/RT_SiteConfig.pm>:
 
-    Set( $CreateByProblemType, 1);
+    Set($CreateByProblemType, 1);
+
+To set the default problem, like "Tech" in queue #1:
+
+    Set($DefaultProblem, '1-Tech' );
 
 =head1 AUTHOR
 
@@ -101,6 +105,44 @@ $RT::Config::META{CreateByProblemType} =
             Description => 'Create tickets by selecting a problem type, not a queue',    #loc
         },
     };
+
+$RT::Config::META{DefaultProblem} = {
+    Section         => 'General',
+    Overridable     => 1,
+    SortOrder       => 51,
+    Widget          => '/Widgets/Form/Select',
+    WidgetArguments => {
+        Description => 'Default problem',    #loc
+        Default     => 1,                    # allow user to unset it on EditConfig.html
+        Callback    => sub {
+            my $ret    = { Values => [], ValuesLabel => {} };
+            my $queues = RT::Queues->new( $HTML::Mason::Commands::session{'CurrentUser'} );
+            $queues->UnLimit;
+            while ( my $q = $queues->Next ) {
+                next unless $q->CurrentUserHasRight("CreateTicket");
+                my $cf = RT::CustomField->new( $HTML::Mason::Commands::session{'CurrentUser'} );
+                $cf->LoadByName(
+                    Name          => 'Problem Type',
+                    LookupType    => RT::Ticket->CustomFieldLookupType,
+                    ObjectId      => $q->id,
+                    IncludeGlobal => 1,
+                );
+                if ( not $cf->Id or not $cf->Values->Count ) {
+                    push @{ $ret->{Values} }, $q->Id;
+                    $ret->{ValuesLabel}{ $q->Id } = $q->Name;
+                }
+                else {
+                    my $values = $cf->Values;
+                    while ( my $v = $values->Next ) {
+                        push @{ $ret->{Values} }, $q->Id . '-' . $v->Name;
+                        $ret->{ValuesLabel}{ $q->Id . '-' . $v->Name } = $q->Name . ' - ' . $v->Name;
+                    }
+                }
+            }
+            return $ret;
+        },
+    },
+};
 
 RT->AddStyleSheets('rt-extension-createbyproblemtype.css');
 1;
