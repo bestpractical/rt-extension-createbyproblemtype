@@ -57,12 +57,16 @@ if ( $cf->Id ) {
         $ARGSRef->{"Object-RT::Ticket--CustomField-$id->Id-Values"} = $ProblemValue;
     }
 
-    # Update Subject only on problem change, to avoid overriding user input value on "Create"
-    $ARGSRef->{Subject} = $ProblemValue if $ARGSRef->{QueueChanged};
+    # Update Subject only on problem change and user hasn't modified it
+    $ARGSRef->{Subject} = $ProblemValue
+        if $ARGSRef->{QueueChanged} && !grep { $_ eq 'Subject' }
+        ref $ARGSRef->{ChangedField} ? @{ $ARGSRef->{ChangedField} } : $ARGSRef->{ChangedField} // ();
 }
 else {
     # Reset Subject if current queue doesn't support Problem Type on problem change
-    $ARGSRef->{Subject} = '' if $ARGSRef->{QueueChanged};
+    $ARGSRef->{Subject} = ''
+        if $ARGSRef->{QueueChanged} && !grep { $_ eq 'Subject' }
+        ref $ARGSRef->{ChangedField} ? @{ $ARGSRef->{ChangedField} } : $ARGSRef->{ChangedField} // ();
 }
 
 </%init>
